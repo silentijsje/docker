@@ -1,2 +1,0 @@
-making link to env file
-ln ~/docker/.env ~/docker/sabnzbd/.env

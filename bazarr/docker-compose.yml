@@ -1,19 +1,19 @@
 ---
 version: "3"
 services:
-  sabnzbd:
-    image: lscr.io/linuxserver/sabnzbd:latest
-    container_name: sabnzbd
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
     environment:
       PUID: ${PUID}
       PGID: ${PGID}
       UMASK: ${UMASK}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_DIR}/sabnzbd:/config
+      - ${CONFIG_DIR}/bazarr:/config
       - /mnt/volatile/volatile:/data
     ports:
-      - 8081:8080
+      - 6767:6767
     restart: unless-stopped
 
 networks:

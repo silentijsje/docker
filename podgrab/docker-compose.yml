@@ -1,19 +1,20 @@
 ---
 version: "3"
 services:
-  sabnzbd:
-    image: lscr.io/linuxserver/sabnzbd:latest
-    container_name: sabnzbd
+  podgrab:
+    image: akhilrex/podgrab
+    container_name: podgrab
     environment:
       PUID: ${PUID}
       PGID: ${PGID}
       UMASK: ${UMASK}
       TZ: ${TZ}
+      CHECK_FREQUENCY: ${CHECK_FREQUENCY}
     volumes:
-      - ${CONFIG_DIR}/sabnzbd:/config
-      - /mnt/volatile/volatile:/data
+      - ${CONFIG_DIR}/podgrab:/config
+      - /mnt/volatile/volatile/Media/Podcast:/assets
     ports:
-      - 8081:8080
+      - 8082:8080
     restart: unless-stopped
 
 networks:
