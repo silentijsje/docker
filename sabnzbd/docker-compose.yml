@@ -1,0 +1,21 @@
+---
+version: "3"
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID:${PUID}
+      - PGID:${PGID}
+      - TZ:${TZ}
+    volumes:
+      - /docker-config/sabnzbd:/config
+      - /mnt/volatile/volatile:/downloads
+    ports:
+      - 8081:8080
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
