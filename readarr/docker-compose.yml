@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  readarr:
+    container_name: readarr
+    image: cr.hotio.dev/hotio/readarr:nightly
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK: ${UMASK}
+      TZ: ${TZ}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.readarr.entryPoints: https
+    networks:
+      - proxy
+    volumes:
+      - ${CONFIG_DIR}/readarr:/config
+    ports:
+      - "8787:8787"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
