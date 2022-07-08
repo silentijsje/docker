@@ -8,7 +8,12 @@ services:
       PUID: ${PUID}
       PGID: ${PGID}
       UMASK: ${UMASK}
-      TZ: ${TZ}
+      TZ: ${TZ}    
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.entryPoints: https
+    networks:
+      - proxy
     volumes:
       - ${CONFIG_DIR}/sonarr:/config
       - /mnt/volatile/volatile:/data

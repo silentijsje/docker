@@ -9,6 +9,11 @@ services:
       PGID: ${PGID}
       UMASK: ${UMASK}
       TZ: ${TZ}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.bazarr.entryPoints: https
+    networks:
+      - proxy
     volumes:
       - ${CONFIG_DIR}/bazarr:/config
       - /mnt/volatile/volatile:/data

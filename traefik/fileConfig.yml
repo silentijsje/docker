@@ -1,0 +1,12 @@
+http:
+  routers:
+    homeassistant:
+      entryPoints:
+        - https
+      rule: "Host(`hassio.silentijsje.com`)"
+      service: homeassistant
+  services:
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.20.102:8123"
