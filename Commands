@@ -1,2 +1,4 @@
-making link to env file
-ln ~/docker/.env ~/docker/portainer/.env
+#making link to env file
+ln ~/docker/.env ~/docker/readarr/.env
+cd ~/docker/readarr/
+docker compose up -d

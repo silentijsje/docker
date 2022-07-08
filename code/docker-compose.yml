@@ -1,0 +1,28 @@
+---
+version: "3"
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server    
+    labels:
+      traefik.enable: true
+      traefik.http.routers.code.entryPoints: https
+    networks:
+      - proxy
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK: ${UMASK}
+      TZ: ${TZ}
+      PASSWORD: ${PASSWORD}
+    volumes:
+      - ${CONFIG_DIR}/code-server:/config
+      - ~/docker:/docker
+    ports:
+      - 8084:8443
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

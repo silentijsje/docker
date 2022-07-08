@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  tautulli:
+    container_name: tautulli
+    image: cr.hotio.dev/hotio/tautulli
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK: ${UMASK}
+      TZ: ${TZ}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.tautulli.entryPoints: https
+    networks:
+      - proxy
+    volumes:
+      - ${CONFIG_DIR}/tautulli:/config
+    ports:
+      - "8181:8181"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

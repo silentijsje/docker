@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  lidarr:
+    container_name: lidarr
+    image: cr.hotio.dev/hotio/lidarr
+    labels:
+      traefik.enable: true
+      traefik.http.routers.lidarr.entryPoints: https
+    networks:
+      - proxy
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK: ${UMASK}
+      TZ: ${TZ}
+      CHECK_FREQUENCY: ${CHECK_FREQUENCY}
+    volumes:
+      - ${CONFIG_DIR}/lidarr:/config
+      - /mnt/volatile/volatile:/data
+    ports:
+      - "8686:8686"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

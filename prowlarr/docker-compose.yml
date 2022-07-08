@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  prowlarr:
+    container_name: prowlarr
+    image: cr.hotio.dev/hotio/prowlarr:nightly
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK: ${UMASK}
+      TZ: ${TZ}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.entryPoints: https
+    networks:
+      - proxy
+    volumes:
+      - ${CONFIG_DIR}/prowlarr:/config
+      - /mnt/volatile/volatile:/data
+    ports:
+      - "9696:9696"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

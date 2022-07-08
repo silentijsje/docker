@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  overseerr:
+    container_name: overseerr
+    image: cr.hotio.dev/hotio/overseerr    
+    labels:
+      traefik.enable: true
+      traefik.http.routers.overseerr.entryPoints: https
+    networks:
+      - proxy
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK: ${UMASK}
+      TZ: ${TZ}
+      CHECK_FREQUENCY: ${CHECK_FREQUENCY}
+    volumes:
+      - ${CONFIG_DIR}/overseerr:/config
+      - /mnt/volatile/volatile:/data
+    ports:
+      - "5055:5055"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
