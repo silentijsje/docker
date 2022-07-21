@@ -5,18 +5,22 @@ services:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:sabnzbd
+      - TP_ADDON=dark
     labels:
       traefik.enable: true
       traefik.http.routers.sabnzbd.entryPoints: https
+      traefik.http.routers.sabnzbd.middlewares: auth@file
     networks:
       - proxy
     volumes:
       - ${CONFIG_DIR}/sabnzbd:/config
       - /mnt/volatile/volatile:/data
+      - /storage/Temporary:/Temporary
     ports:
       - 8081:8080
     restart: unless-stopped

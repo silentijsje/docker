@@ -7,6 +7,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.overseerr.entryPoints: https
+      traefik.http.routers.overseerr.middlewares: auth@file
     networks:
       - proxy
     environment:
@@ -14,7 +15,6 @@ services:
       PGID: ${PGID}
       UMASK: ${UMASK}
       TZ: ${TZ}
-      CHECK_FREQUENCY: ${CHECK_FREQUENCY}
     volumes:
       - ${CONFIG_DIR}/overseerr:/config
       - /mnt/volatile/volatile:/data

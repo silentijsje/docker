@@ -3,18 +3,21 @@ version: "3"
 services:
   code-server:
     image: lscr.io/linuxserver/code-server:latest
-    container_name: code-server    
+    container_name: code-server   
     labels:
       traefik.enable: true
-      traefik.http.routers.code.entryPoints: https
+      traefik.http.routers.code-server.entryPoints: https
+      traefik.http.routers.code-server.middlewares: auth@file
+      traefik.http.routers.app.rule: Host(`code.silentijsje.com`)
     networks:
       - proxy
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
-      PASSWORD: ${PASSWORD}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - PASSWORD=${PASSWORD}
+      - DEFAULT_WORKSPACE=/docker
     volumes:
       - ${CONFIG_DIR}/code-server:/config
       - ~/docker:/docker

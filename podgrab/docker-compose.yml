@@ -5,10 +5,10 @@ services:
     image: akhilrex/podgrab
     container_name: podgrab
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
       CHECK_FREQUENCY: ${CHECK_FREQUENCY}
     volumes:
       - ${CONFIG_DIR}/podgrab:/config

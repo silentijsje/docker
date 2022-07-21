@@ -1,0 +1,30 @@
+---
+version: "3.7"
+services:
+  whisparr:
+    container_name: whisparr
+    image: cr.hotio.dev/hotio/whisparr:nightly
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - TP_HOTIO=true
+      - TP_THEME=dark
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whisparr.entryPoints: https
+      traefik.http.routers.whisparr.middlewares: auth@file
+    networks:
+      - proxy
+    volumes:
+      - ${CONFIG_DIR}/whisparr:/config
+      - ~/docker-config/Themes/whisparr:/etc/cont-init.d/99-themepark
+    ports:
+      - 6969:6969
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

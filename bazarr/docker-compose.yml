@@ -5,13 +5,16 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
+      - TP_ADDON=dark
     labels:
       traefik.enable: true
       traefik.http.routers.bazarr.entryPoints: https
+      traefik.http.routers.bazarr.middlewares: auth@file
     networks:
       - proxy
     volumes:

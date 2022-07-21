@@ -5,18 +5,24 @@ services:
     container_name: prowlarr
     image: cr.hotio.dev/hotio/prowlarr:nightly
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:prowlarr
+      - TP_ADDON=dark
+      - TP_HOTIO=true
+      - TP_THEME=dark
     labels:
       traefik.enable: true
       traefik.http.routers.prowlarr.entryPoints: https
+      traefik.http.routers.prowlarr.middlewares: auth@file
     networks:
       - proxy
     volumes:
       - ${CONFIG_DIR}/prowlarr:/config
       - /mnt/volatile/volatile:/data
+      - ~/docker-config/Themes/prowlarr:/etc/cont-init.d/99-themepark
     ports:
       - "9696:9696"
     restart: unless-stopped

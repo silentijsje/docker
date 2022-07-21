@@ -7,17 +7,20 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.lidarr.entryPoints: https
+      traefik.http.routers.lidarr.middlewares: auth@file
     networks:
       - proxy
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
-      CHECK_FREQUENCY: ${CHECK_FREQUENCY}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - TP_HOTIO=true
+      - TP_THEME=dark
     volumes:
       - ${CONFIG_DIR}/lidarr:/config
       - /mnt/volatile/volatile:/data
+      - ~/docker-config/Themes/lidarr:/etc/cont-init.d/99-themepark
     ports:
       - "8686:8686"
     restart: unless-stopped

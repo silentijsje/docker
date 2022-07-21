@@ -5,18 +5,22 @@ services:
     container_name: readarr
     image: cr.hotio.dev/hotio/readarr:nightly
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - TP_HOTIO=true
+      - TP_THEME=dark
     labels:
       traefik.enable: true
       traefik.http.routers.readarr.entryPoints: https
+      traefik.http.routers.readarr.middlewares: auth@file
     networks:
       - proxy
     volumes:
       - ${CONFIG_DIR}/readarr:/config
       - /mnt/volatile/volatile:/data
+      - ~/docker-config/Themes/readarr:/etc/cont-init.d/99-themepark
     ports:
       - "8787:8787"
     restart: unless-stopped

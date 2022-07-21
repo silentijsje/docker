@@ -5,13 +5,16 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:radarr
+      - TP_ADDON=dark
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.entryPoints: https
+      traefik.http.routers.radarr.middlewares: auth@file
     networks:
       - proxy
     volumes:

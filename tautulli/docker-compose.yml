@@ -5,17 +5,21 @@ services:
     container_name: tautulli
     image: cr.hotio.dev/hotio/tautulli
     environment:
-      PUID: ${PUID}
-      PGID: ${PGID}
-      UMASK: ${UMASK}
-      TZ: ${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+      - TP_HOTIO=true
+      - TP_THEME=dark
     labels:
       traefik.enable: true
       traefik.http.routers.tautulli.entryPoints: https
+      traefik.http.routers.tautulli.middlewares: auth@file
     networks:
       - proxy
     volumes:
       - ${CONFIG_DIR}/tautulli:/config
+      - ~/docker-config/Themes/tautulli:/etc/cont-init.d/99-themepark
     ports:
       - "8181:8181"
     restart: unless-stopped

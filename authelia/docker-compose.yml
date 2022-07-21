@@ -1,0 +1,40 @@
+version: '3'
+services:
+  auth:
+    container_name: auth    
+    image: authelia/authelia:latest
+    expose:
+      - 9091
+    volumes:
+      - ${CONFIG_DIR}/authelia:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.authelia.entryPoints: https
+      traefik.http.routers.app.rule: Host(`auth.silentijsje.com`)      
+    environment:
+      - TZ=${TZ}
+    networks:
+      - proxy
+    healthcheck:
+      disable: true
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - ${CONFIG_DIR}/redis:/data
+    networks:
+      - proxy
+    expose:
+      - 6379
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

@@ -1,4 +1,43 @@
 #making link to env file
-ln ~/docker/.env ~/docker/readarr/.env
-cd ~/docker/readarr/
+ln ~/docker/.env ~/docker/whisparr/.env
+
+#containers
+bazarr
+code
+lidarr
+overseerr
+prowlarr
+radarr
+readarr
+sabnzbd
+sonarr
+tautulli
+watchtower
+portainer
+
+cd ~/docker/whisparr/
 docker compose up -d
+cd ~/docker/bazarr/
+docker compose up -d
+cd ~/docker/code
+docker compose up -d
+cd ~/docker/lidarr/
+docker compose up -d
+cd ~/docker/prowlarr
+docker compose up -d
+cd ~/docker/radarr/
+docker compose up -d
+cd ~/docker/sabnzbd
+docker compose up -d
+cd ~/docker/sonarr/
+docker compose up -d
+cd ~/docker/tautulli
+docker compose up -d
+cd ~/docker/watchtower
+docker compose up -d
+cd ~/docker/portainer
+docker compose up -d
+cd ~/docker/authelia
+docker compose up -d --force-recreate
+cd ~/docker/traefik
+docker compose up -d --force-recreate
